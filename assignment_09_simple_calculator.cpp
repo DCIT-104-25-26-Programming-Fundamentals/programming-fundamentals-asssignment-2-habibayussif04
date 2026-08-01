@@ -65,7 +65,125 @@
 //
 
 // =============================================================================
-// YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+#include <limits>
+using namespace std;
+
+// -----------------------------------------------------------------------------
+// ARITHMETIC FUNCTIONS
+// -----------------------------------------------------------------------------
+double addNumbers(double a, double b) {
+    return a + b;
+}
+
+double subtractNumbers(double a, double b) {
+    return a - b;
+}
+
+double multiplyNumbers(double a, double b) {
+    return a * b;
+}
+
+void divideNumbers(double a, double b) {
+    if (b == 0) {
+        cout << "Error: Cannot divide by zero." << endl;
+    } else {
+        cout << "Result: " << a << " / " << b << " = " 
+             << fixed << setprecision(2) << (a / b) << endl;
+    }
+}
+
+void calculateModulus(double a, double b) {
+    if (b == 0) {
+        cout << "Error: Cannot perform modulus by zero." << endl;
+    } else {
+        // Modulus requires integer conversion or fmod for floating points
+        int intA = static_cast<int>(a);
+        int intB = static_cast<int>(b);
+        cout << "Result: " << intA << " % " << intB << " = " << (intA % intB) << endl;
+    }
+}
+
+double powerNumbers(double base, double exp) {
+    return pow(base, exp);
+}
+
+// -----------------------------------------------------------------------------
+// MENU HELPER
+// -----------------------------------------------------------------------------
+void displayMenu() {
+    cout << "\n============================" << endl;
+    cout << "       SIMPLE CALCULATOR    " << endl;
+    cout << "============================" << endl;
+    cout << "1. Addition" << endl;
+    cout << "2. Subtraction" << endl;
+    cout << "3. Multiplication" << endl;
+    cout << "4. Division" << endl;
+    cout << "5. Modulus" << endl;
+    cout << "6. Exponentiation" << endl;
+    cout << "7. Quit" << endl;
+    cout << "Select an operation (1-7): ";
+}
+
+int main() {
+    int choice = 0;
+
+    while (choice != 7) {
+        displayMenu();
+        cin >> choice;
+
+        // Input validation for non-numeric input
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid choice. Please enter a number between 1 and 7." << endl;
+            continue;
+        }
+
+        if (choice == 7) {
+            cout << "Goodbye!" << endl;
+            break;
+        }
+
+        if (choice < 1 || choice > 7) {
+            cout << "Invalid choice. Please pick an option from 1 to 7." << endl;
+            continue;
+        }
+
+        double num1, num2;
+        cout << "Enter first number : ";
+        cin >> num1;
+        cout << "Enter second number: ";
+        cin >> num2;
+
+        cout << fixed << setprecision(2);
+
+        switch (choice) {
+            case 1:
+                cout << "Result: " << num1 << " + " << num2 << " = " << addNumbers(num1, num2) << endl;
+                break;
+            case 2:
+                cout << "Result: " << num1 << " - " << num2 << " = " << subtractNumbers(num1, num2) << endl;
+                break;
+            case 3:
+                cout << "Result: " << num1 << " * " << num2 << " = " << multiplyNumbers(num1, num2) << endl;
+                break;
+            case 4:
+                divideNumbers(num1, num2);
+                break;
+            case 5:
+                calculateModulus(num1, num2);
+                break;
+            case 6:
+                cout << "Result: " << num1 << " ^ " << num2 << " = " << powerNumbers(num1, num2) << endl;
+                break;
+        }
+    }
+
+    return 0;
+}
 // =============================================================================
 
 #include <iostream>

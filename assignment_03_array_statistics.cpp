@@ -36,7 +36,74 @@
 
 //
 // =============================================================================
-// YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
+#include <iostream>
+using namespace std;
+
+// Calculates the sum of all elements in the array
+double getSum(const double arr[], int size) {
+    double sum = 0;
+    for (int i = 0; i < size; ++i) {
+        sum += arr[i];
+    }
+    return sum;
+}
+
+// Calculates the average of the elements in the array
+double getAverage(const double arr[], int size) {
+    return getSum(arr, size) / size;
+}
+
+// Finds the maximum value in the array
+double getMaximum(const double arr[], int size) {
+    double maxVal = arr[0];
+    for (int i = 1; i < size; ++i) {
+        if (arr[i] > maxVal) {
+            maxVal = arr[i];
+        }
+    }
+    return maxVal;
+}
+
+// Finds the minimum value in the array
+double getMinimum(const double arr[], int size) {
+    double minVal = arr[0];
+    for (int i = 1; i < size; ++i) {
+        if (arr[i] < minVal) {
+            minVal = arr[i];
+        }
+    }
+    return minVal;
+}
+
+int main() {
+    int n;
+    cout << "How many numbers? ";
+    cin >> n;
+
+    // Input validation for positive count
+    if (n <= 0) {
+        cout << "Error: Number of elements must be greater than zero." << endl;
+        return 1;
+    }
+
+    double* arr = new double[n];
+
+    for (int i = 0; i < n; ++i) {
+        cout << "Enter number " << i + 1 << ": ";
+        cin >> arr[i];
+    }
+
+    cout << "\nResults:" << endl;
+    cout << "Sum:     " << getSum(arr, n) << endl;
+    cout << "Average: " << getAverage(arr, n) << endl;
+    cout << "Maximum: " << getMaximum(arr, n) << endl;
+    cout << "Minimum: " << getMinimum(arr, n) << endl;
+
+    // Clean up dynamically allocated memory
+    delete[] arr;
+
+    return 0;
+}
 // =============================================================================
 
 #include <iostream>

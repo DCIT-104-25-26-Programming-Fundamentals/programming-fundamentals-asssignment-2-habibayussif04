@@ -74,7 +74,169 @@
 
 //
 // =============================================================================
-// YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
+#include <iostream>
+#include <vector>
+#include <string>
+#include <iomanip>
+#include <limits>
+using namespace std;
+
+// Struct to represent a single student record
+struct Student {
+    string name;
+    int id;
+    vector<double> scores;
+};
+
+// Helper function to calculate average score for a single student
+double calculateStudentAverage(const Student& student) {
+    if (student.scores.empty()) {
+        return 0.0;
+    }
+    double sum = 0.0;
+    for (double score : student.scores) {
+        sum += score;
+    }
+    return sum / student.scores.size();
+}
+
+// -----------------------------------------------------------------------------
+// FEATURE 1: Add a Student
+// -----------------------------------------------------------------------------
+void addStudent(vector<Student>& students) {
+    Student newStudent;
+
+    cout << "Student name: ";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear leftover newline
+    getline(cin, newStudent.name);
+
+    cout << "Student ID: ";
+    cin >> newStudent.id;
+
+    int numScores;
+    cout << "How many scores? ";
+    cin >> numScores;
+
+    for (int i = 0; i < numScores; ++i) {
+        double score;
+        cout << "Enter score " << i + 1 << ": ";
+        cin >> score;
+        newStudent.scores.push_back(score);
+    }
+
+    students.push_back(newStudent);
+    cout << "Student \"" << newStudent.name << "\" added successfully." << endl;
+}
+
+// -----------------------------------------------------------------------------
+// FEATURE 2: Display All Students
+// -----------------------------------------------------------------------------
+void displayAllStudents(const vector<Student>& students) {
+    if (students.empty()) {
+        cout << "No student records available." << endl;
+        return;
+    }
+
+    cout << "\n--------------------------------------------------------------------------" << endl;
+    cout << left << setw(12) << "ID"
+         << setw(20) << "Name"
+         << setw(25) << "Scores"
+         << setw(10) << "Average" << endl;
+    cout << "--------------------------------------------------------------------------" << endl;
+
+    for (const auto& student : students) {
+        // Build scores string for clean layout
+        string scoreList = "";
+        for (size_t i = 0; i < student.scores.size(); ++i) {
+            scoreList += to_string(static_cast<int>(student.scores[i]));
+            if (i < student.scores.size() - 1) scoreList += ", ";
+        }
+
+        double avg = calculateStudentAverage(student);
+
+        cout << left << setw(12) << student.id
+             << setw(20) << student.name
+             << setw(25) << scoreList
+             << fixed << setprecision(2) << setw(10) << avg << endl;
+    }
+    cout << "--------------------------------------------------------------------------" << endl;
+}
+
+// -----------------------------------------------------------------------------
+// FEATURE 3: Calculate Average Score for a Specific Student
+// -----------------------------------------------------------------------------
+void findAndDisplayAverage(const vector<Student>& students) {
+    if (students.empty()) {
+        cout << "No student records available." << endl;
+        return;
+    }
+
+    int searchId;
+    cout << "Enter student ID: ";
+    cin >> searchId;
+
+    for (const auto& student : students) {
+        if (student.id == searchId) {
+            double avg = calculateStudentAverage(student);
+            cout << fixed << setprecision(2);
+            cout << student.name << "'s average score: " << avg << endl;
+            return;
+        }
+    }
+
+    cout << "Error: Student ID " << searchId << " not found." << endl;
+}
+
+// -----------------------------------------------------------------------------
+// MENU HELPER
+// -----------------------------------------------------------------------------
+void displayMenu() {
+    cout << "\n================================" << endl;
+    cout << "   STUDENT RECORD SYSTEM MENU   " << endl;
+    cout << "================================" << endl;
+    cout << "1. Add student" << endl;
+    cout << "2. Display all students" << endl;
+    cout << "3. Calculate average score" << endl;
+    cout << "4. Quit" << endl;
+    cout << "Enter your choice (1-4): ";
+}
+
+int main() {
+    vector<Student> students;
+    int choice = 0;
+
+    while (choice != 4) {
+        displayMenu();
+        cin >> choice;
+
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Invalid choice. Please enter a number between 1 and 4." << endl;
+            continue;
+        }
+
+        switch (choice) {
+            case 1:
+                addStudent(students);
+                break;
+            case 2:
+                displayAllStudents(students);
+                break;
+            case 3:
+                findAndDisplayAverage(students);
+                break;
+            case 4:
+                cout << "Goodbye!" << endl;
+                break;
+            default:
+                cout << "Invalid choice. Please enter a option from 1 to 4." << endl;
+                break;
+        }
+    }
+
+    return 0;
+}
 // =============================================================================
 
 #include <iostream>
